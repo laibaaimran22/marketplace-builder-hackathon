@@ -71,6 +71,9 @@ Day 2 focused on setting up the technical infrastructure for the marketplace. Ke
 
 Throughout the process, I collaborated with peers to review the system architecture, API requirements, and schema designs. There were some challenges in understanding the level of detail required for each section, especially in terms of API specifications and workflows. After reviewing examples from peers and discussing with mentors, I refined the technical plan and ensured it met the project requirements.
 
+Day 3: API Integration and Data Migration
+Objectives
+The main focus of Day 3 was on integrating provided APIs and migrating data into the Sanity CMS.
 ---
 
 This README serves as an overview of the project’s progress, summarizing the work completed on both Day 1 and Day 2. All documents and files associated with the project are organized in their respective folders for easy access and review.
