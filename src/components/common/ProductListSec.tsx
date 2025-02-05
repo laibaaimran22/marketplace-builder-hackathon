@@ -8,12 +8,12 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import ProductCard from "./ProductCard";
-import { Product } from "@/types/product.types";
+import { Product } from "@/interface";
 import Link from "next/link";
 
 type ProductListSecProps = {
   title: string;
-  data: Product[];
+  data: Product[]; // Accepts an array of products
   viewAllLink?: string;
 };
 
@@ -50,7 +50,8 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
                 key={product.id}
                 className="w-full max-w-[198px] sm:max-w-[295px] pl-0"
               >
-                <ProductCard data={product} />
+
+                <ProductCard data={product} id={product.id} />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -59,7 +60,7 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
           <div className="w-full px-4 sm:px-0 text-center">
             <Link
               href={viewAllLink}
-              className="w-full inline-block sm:w-[218px] px-[54px] py-4 border rounded-full hover:bg- hover:text-black text- transition-all font-medium text-sm sm:text-base border-black/10"
+              className="w-full inline-block sm:w-[218px] px-[54px] py-4 border rounded-full hover:bg-black hover:text-white text-black transition-all font-medium text-sm sm:text-base border-black/10"
             >
               View All
             </Link>

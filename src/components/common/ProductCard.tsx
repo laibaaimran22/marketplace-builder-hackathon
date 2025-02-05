@@ -1,81 +1,93 @@
+"use client";
+
 import React from "react";
-import Rating from "../ui/Rating";
 import Image from "next/image";
 import Link from "next/link";
-import { Product } from "@/types/product.types";
+import { Product } from "@/interface";
+import { urlFor } from "@/sanity/lib/image";
 
 type ProductCardProps = {
   data: Product;
+  id: string;
 };
 
 const ProductCard = ({ data }: ProductCardProps) => {
+  const imageUrl = data.image ? urlFor(data.image).url() : "/default-image.jpg";
+  const discountedPrice = data.discountPercent
+    ? data.price - (data.price * data.discountPercent) / 100
+    : data.price;
+
   return (
     <Link
-      href={`/shop/product/${data.id}/${data.title.split(" ").join("-")}`}
-      className="flex flex-col items-start aspect-auto"
+      href={`/shop/product/${data._id}`}
+      className="flex flex-col items-start group transition-transform transform hover:scale-102 duration-300"
+      aria-label={`View details for ${data.name}`}
     >
-      <div className="bg-[#F0EEED] rounded-[13px] lg:rounded-[20px] w-full lg:max-w-[295px] aspect-square mb-2.5 xl:mb-4 overflow-hidden">
+      <div className="relative bg-gray-100 rounded-lg w-full max-w-[295px] aspect-square mb-4 overflow-hidden">
         <Image
-          src={data.srcUrl}
+          src={imageUrl}
           width={295}
-          height={298}
-          className="rounded-md w-full h-full object-contain hover:scale-110 transition-all duration-500"
-          alt={data.title}
+          height={295}
+          className="rounded-md w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+          alt={data.name || "Product image"}
           priority
         />
+        {data.isNew && (
+          <span className="absolute top-2 left-2 bg-blue-500 text-white text-xs font-medium px-2 py-1 rounded">
+            New
+          </span>
+        )}
       </div>
-      <strong className="text-black xl:text-xl">{data.title}</strong>
-      <div className="flex items-end mb-1 xl:mb-2">
-        <Rating
-          initialValue={data.rating}
-          allowFraction
-          SVGclassName="inline-block"
-          emptyClassName="fill-gray-50"
-          size={19}
-          readonly
-        />
-        <span className="text-black text-xs xl:text-sm ml-[11px] xl:ml-[13px] pb-0.5 xl:pb-0">
-          {data.rating.toFixed(1)}
-          <span className="text-black/60">/5</span>
-        </span>
-      </div>
-      <div className="flex items-center space-x-[5px] xl:space-x-2.5">
-        {data.discount.percentage > 0 ? (
-          <span className="font-bold text-black text-xl xl:text-2xl">
-            {`$${Math.round(
-              data.price - (data.price * data.discount.percentage) / 100
-            )}`}
+      <div className="w-full">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="text-lg font-semibold text-black group-hover:text-red-500 transition-colors duration-300">
+            {data.name}
+          </h3>
+          <span className="text-sm text-gray-500 capitalize">{data.category}</span>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-3">
+          {Array.isArray(data.colors) && data.colors.length > 0 ? (
+            data.colors.map((color, index) => (
+              <span
+                key={index}
+                className="px-2 py-1 bg-gray-200 text-xs rounded"
+              >
+                {color}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-400 text-sm">No colors available</span>
+          )}
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className="text-xl font-bold text-black">
+            ${discountedPrice.toFixed(2)}
           </span>
-        ) : data.discount.amount > 0 ? (
-          <span className="font-bold text-black text-xl xl:text-2xl">
-            {`$${data.price - data.discount.amount}`}
-          </span>
-        ) : (
-          <span className="font-bold text-black text-xl xl:text-2xl">
-            ${data.price}
-          </span>
-        )}
-        {data.discount.percentage > 0 && (
-          <span className="font-bold text-black/40 line-through text-xl xl:text-2xl">
-            ${data.price}
-          </span>
-        )}
-        {data.discount.amount > 0 && (
-          <span className="font-bold text-black/40 line-through text-xl xl:text-2xl">
-            ${data.price}
-          </span>
-        )}
-        {data.discount.percentage > 0 ? (
-          <span className="font-medium text-[10px] xl:text-xs py-1.5 px-3.5 rounded-full bg-[#FF3333]/10 text-[#FF3333]">
-            {`-${data.discount.percentage}%`}
-          </span>
-        ) : (
-          data.discount.amount > 0 && (
-            <span className="font-medium text-[10px] xl:text-xs py-1.5 px-3.5 rounded-full bg-[#FF3333]/10 text-[#FF3333]">
-              {`-$${data.discount.amount}`}
-            </span>
-          )
-        )}
+          {data.discountPercent > 0 && (
+            <>
+              <span className="text-gray-500 line-through">
+                ${data.price.toFixed(2)}
+              </span>
+              <span className="text-xs font-medium bg-red-100 text-red-600 px-2 py-1 rounded">
+                -{data.discountPercent}%
+              </span>
+            </>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2 mt-3">
+          {Array.isArray(data.sizes) && data.sizes.length > 0 ? (
+            data.sizes.map((size, index) => (
+              <span
+                key={index}
+                className="px-2 py-1 bg-gray-200 text-xs rounded"
+              >
+                {size}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-400 text-sm">No sizes available</span>
+          )}
+        </div>
       </div>
     </Link>
   );

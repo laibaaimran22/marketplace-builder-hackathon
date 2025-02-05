@@ -13,6 +13,7 @@ import Image from "next/image";
 import InputGroup from "@/components/ui/input-group";
 import ResTopNavbar from "./ResTopNavbar";
 import CartBtn from "./CartBtn";
+import UserIconLink from "@/components/userbutton/page";
 
 const data: NavMenu = [
   {
@@ -57,14 +58,14 @@ const data: NavMenu = [
     id: 3,
     type: "MenuItem",
     label: "New Arrivals",
-    url: "/shop#new-arrivals",
+    url: "/newarrivals",
     children: [],
   },
   {
     id: 4,
     type: "MenuItem",
     label: "Brands",
-    url: "/shop#brands",
+    url: "/brands",
     children: [],
   },
 ];
@@ -111,6 +112,7 @@ const TopNavbar = () => {
               alt="search"
               className="min-w-5 min-h-5"
             />
+          
           </InputGroup.Text>
           <InputGroup.Input
             type="search"
@@ -131,16 +133,7 @@ const TopNavbar = () => {
             />
           </Link>
           <CartBtn />
-          <Link href="/#signin" className="p-1">
-            <Image
-              priority
-              src="/icons/user.svg"
-              height={100}
-              width={100}
-              alt="user"
-              className="max-w-[22px] max-h-[22px]"
-            />
-          </Link>
+          <UserIconLink />
         </div>
       </div>
     </nav>

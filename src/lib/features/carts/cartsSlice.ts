@@ -1,5 +1,4 @@
 import { compareArrays } from "@/lib/utils";
-import { Discount } from "@/types/product.types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -9,26 +8,26 @@ const calcAdjustedTotalPrice = (
   quantity?: number
 ): number => {
   return (
-    (totalPrice + data.discount.percentage > 0
-      ? Math.round(data.price - (data.price * data.discount.percentage) / 100)
-      : data.discount.amount > 0
-      ? Math.round(data.price - data.discount.amount)
+    (totalPrice  > 0
+      ? Math.round(data.price - (data.price * data.discount) / 100)
+      : data.discount> 0
+      ? Math.round(data.price - data.discount)
       : data.price) * (quantity ? quantity : data.quantity)
   );
 };
 
 export type RemoveCartItem = {
-  id: number;
+  id: string;
   attributes: string[];
 };
 
 export type CartItem = {
-  id: number;
+  id: string;
   name: string;
   srcUrl: string;
   price: number;
   attributes: string[];
-  discount: Discount;
+  discount: number;
   quantity: number;
 };
 

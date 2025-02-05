@@ -1,14 +1,13 @@
-export type Discount = {
-  amount: number;
-  percentage: number;
-};
 
-export type Product = {
-  id: number;
-  title: string;
-  srcUrl: string;
-  gallery?: string[];
+export interface Product {
+  _id: string;
+  name: string;
   price: number;
-  discount: Discount;
-  rating: number;
-};
+  description: string;
+  image: string;
+  category: 'tshirt' | 'short' | 'jeans' | 'hoodie' | 'shirt';
+  discountPercent: number;
+  new: boolean;
+  colors: string[];
+  sizes: string[];
+}
